@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 KEEP=5
 
-cd "$RELEASES_DIR" || { echo "Releases dir not found: $RELEASES_DIR"; exit 1; }
+cd "$PROJECT_ROOT" || { echo "Project not found: $PROJECT_ROOT"; exit 1; }
 
 count=$(ls -1tr | wc -l)
 to_delete=$((count - KEEP))
