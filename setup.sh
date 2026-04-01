@@ -16,27 +16,27 @@ if ! command -v docker >/dev/null 2>&1; then
     sudo systemctl enable docker
     sudo systemctl start docker
     sudo usermod -aG docker ${USER}
-    su - ${USER}
+
 fi
 
-docker --version
+sudo docker --version
 
 ## INSTALL GITLAB RUNNER
-if [ ! "$(docker ps -aq -f name=gitlab-runner)" ]; then
+if [ ! "$(sudo docker ps -aq -f name=gitlab-runner)" ]; then
 
-    docker run -d --name gitlab-runner --restart always \
+    sudo docker run -d --name gitlab-runner --restart always \
       -v /var/run/docker.sock:/var/run/docker.sock \
       -v /srv/gitlab-runner/config:/etc/gitlab-runner \
       gitlab/gitlab-runner:latest
 
     echo "service_healthcheck_timeout = 120" | sudo tee -a /srv/gitlab-runner/config/config.toml
-    docker restart gitlab-runner
+    sudo docker restart gitlab-runner
 
-else
+fi
 
 ## Create link
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ln -sfn releases/1 $PROJECT_ROOT/www/current
 
 ## Create containers
-docker compose up -d
+sudo docker compose up -d
