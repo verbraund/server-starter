@@ -21,22 +21,20 @@ fi
 
 sudo docker --version
 
-## INSTALL GITLAB RUNNER
-if [ ! "$(sudo docker ps -aq -f name=gitlab-runner)" ]; then
-
-    sudo docker run -d --name gitlab-runner --restart always \
-      -v /var/run/docker.sock:/var/run/docker.sock \
-      -v /srv/gitlab-runner/config:/etc/gitlab-runner \
-      gitlab/gitlab-runner:latest
-
-    echo "service_healthcheck_timeout = 120" | sudo tee -a /srv/gitlab-runner/config/config.toml
-    sudo docker restart gitlab-runner
-
-fi
-
 ## Create link
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ln -sfn releases/1 $PROJECT_ROOT/www/current
+
+openssl req -x509 -newkey rsa:2048 \
+    -sha256 \
+    -days 365 \
+    -noenc \
+    -keyout ./nginx/ssl/site.key \
+    -out ./nginx/ssl/site.crt \
+    -subj "/CN=site.local" \
+    -addext "subjectAltName=DNS:site.local" \
+    -addext "basicConstraints=critical,CA:FALSE" \
+    -addext "extendedKeyUsage=serverAuth"
 
 ## Create containers
 sudo docker compose up -d

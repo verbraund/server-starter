@@ -10,9 +10,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     locales \
     libzip-dev \
-    libonig-dev \
     libpng-dev \
-    libxml2-dev \
     libpq-dev
 
 RUN pecl install -o -f redis &&  rm -rf /tmp/pear
@@ -20,9 +18,6 @@ RUN docker-php-ext-enable redis
 RUN docker-php-ext-install pcntl
 RUN docker-php-ext-install iconv
 RUN docker-php-ext-install gd
-RUN docker-php-ext-install mbstring
-RUN docker-php-ext-install xml
-RUN docker-php-ext-install pdo
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pgsql
