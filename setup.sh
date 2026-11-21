@@ -25,12 +25,14 @@ sudo docker --version
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ln -sfn releases/1 $PROJECT_ROOT/www/current
 
+mkdir -p $PROJECT_ROOT/nginx/ssl
+
 openssl req -x509 -newkey rsa:2048 \
     -sha256 \
     -days 365 \
     -noenc \
-    -keyout ./nginx/ssl/site.key \
-    -out ./nginx/ssl/site.crt \
+    -keyout $PROJECT_ROOT/nginx/ssl/site.key \
+    -out $PROJECT_ROOT/nginx/ssl/site.crt \
     -subj "/CN=site.local" \
     -addext "subjectAltName=DNS:site.local" \
     -addext "basicConstraints=critical,CA:FALSE" \
