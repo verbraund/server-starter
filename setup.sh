@@ -26,6 +26,7 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ln -sfn releases/1 $PROJECT_ROOT/www/current
 
 mkdir -p $PROJECT_ROOT/nginx/ssl
+mkdir -p $PROJECT_ROOT/nginx/logs
 
 openssl req -x509 -newkey rsa:2048 \
     -sha256 \

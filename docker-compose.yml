@@ -10,6 +10,7 @@ services:
             - ./www:/var/www
             - ./nginx/conf:/etc/nginx/conf.d:ro
             - ./nginx/ssl:/etc/nginx/ssl:ro
+            - ./nginx/logs:/var/log/nginx
         depends_on:
             - php-service
             - db-service
